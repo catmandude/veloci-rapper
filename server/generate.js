@@ -1,8 +1,8 @@
 import fs from 'fs';
 
 export default (req, res, next) => {
-  const body = JSON.parse(Object.keys(request.body)[0]);
-  let output = [].concat({
+  const body = JSON.parse(Object.keys(req.body)[0]);
+  const output = [].concat({
     purpose: 'Create regional lambdas',
     call: '',
     arguments: '',
@@ -28,12 +28,19 @@ export default (req, res, next) => {
       arguments: '',
     })
     .concat({
-      purpose: 'Get code from git source',
-      call: '',
+      purpose: 'Get code from S3 source',
+      call: `
+      import {s3} from 'S3';
+      const html = s3.getObject({Bucket: *bucketName*/client, Key: index.html}).createReadStream();
+      const clientJs = s3.getObject({Bucket: *bucketName*/client, Key: bundle.js}).createReadStream();
+      const regionalL = s3.getObject({Bucket: *bucketName*/regional, Key: bundle.js}).createReadStream();
+      const userL = s3.getObject({Bucket: *bucketName*/user, Key: bundle.js}).createReadStream();
+      `,
       arguments: '',
+      notes: 'use the file streams provided to pipe or read out code for the lamda\'s and client',
     });
 
-  fs.writeFile('mammal.json', JSON.stringify(output, null, 2), (err) => {
+  fs.writeFile('mammal.json', JSON.stringify(output, null, 2), err => {
     if (err) throw err;
     console.log('The file has been saved!');
     res.sendStatus(200);
@@ -50,6 +57,6 @@ export default (req, res, next) => {
   // push SAM to Cloud Formation
   // Call SDK for DB
   // Push Mammal to S3
-  // Respond to Trike that all went well or not 
+  // Respond to Trike that all went well or not
   // DO WE NEED ANYTHING ELSE
 };

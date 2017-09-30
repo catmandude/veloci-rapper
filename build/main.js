@@ -62,20 +62,21 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports) {
 
-module.exports = require("express");
+module.exports = require("path");
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = require("path");
+module.exports = __webpack_require__(2);
+
 
 /***/ }),
 /* 2 */
@@ -88,40 +89,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _pino = __webpack_require__(14);
+__webpack_require__(3);
 
-var _pino2 = _interopRequireDefault(_pino);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-const l = (0, _pino2.default)({
-  name: process.env.APP_ID,
-  level: process.env.LOG_LEVEL
-});
-
-exports.default = l;
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(4);
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-__webpack_require__(5);
-
-var _server = __webpack_require__(7);
+var _server = __webpack_require__(5);
 
 var _server2 = _interopRequireDefault(_server);
 
@@ -134,13 +104,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = new _server2.default().router(_routes2.default).listen(process.env.PORT);
 
 /***/ }),
-/* 5 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _dotenv = __webpack_require__(6);
+var _dotenv = __webpack_require__(4);
 
 var _dotenv2 = _interopRequireDefault(_dotenv);
 
@@ -149,13 +119,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _dotenv2.default.config();
 
 /***/ }),
-/* 6 */
+/* 4 */
 /***/ (function(module, exports) {
 
 module.exports = require("dotenv");
 
 /***/ }),
-/* 7 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -165,35 +135,35 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _express = __webpack_require__(0);
+var _express = __webpack_require__(6);
 
 var _express2 = _interopRequireDefault(_express);
 
-var _path = __webpack_require__(1);
+var _path = __webpack_require__(0);
 
 var path = _interopRequireWildcard(_path);
 
-var _bodyParser = __webpack_require__(8);
+var _bodyParser = __webpack_require__(7);
 
 var bodyParser = _interopRequireWildcard(_bodyParser);
 
-var _http = __webpack_require__(9);
+var _http = __webpack_require__(8);
 
 var http = _interopRequireWildcard(_http);
 
-var _os = __webpack_require__(10);
+var _os = __webpack_require__(9);
 
 var os = _interopRequireWildcard(_os);
 
-var _cookieParser = __webpack_require__(11);
+var _cookieParser = __webpack_require__(10);
 
 var _cookieParser2 = _interopRequireDefault(_cookieParser);
 
-var _swagger = __webpack_require__(12);
+var _swagger = __webpack_require__(11);
 
 var _swagger2 = _interopRequireDefault(_swagger);
 
-var _logger = __webpack_require__(2);
+var _logger = __webpack_require__(13);
 
 var _logger2 = _interopRequireDefault(_logger);
 
@@ -228,31 +198,37 @@ exports.default = ExpressServer;
 /* WEBPACK VAR INJECTION */}.call(exports, "server/common"))
 
 /***/ }),
-/* 8 */
+/* 6 */
+/***/ (function(module, exports) {
+
+module.exports = require("express");
+
+/***/ }),
+/* 7 */
 /***/ (function(module, exports) {
 
 module.exports = require("body-parser");
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports) {
 
 module.exports = require("http");
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports) {
 
 module.exports = require("os");
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports) {
 
 module.exports = require("cookie-parser");
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -307,11 +283,11 @@ exports.default = function (app, routes) {
   });
 };
 
-var _swaggerExpressMiddleware = __webpack_require__(13);
+var _swaggerExpressMiddleware = __webpack_require__(12);
 
 var _swaggerExpressMiddleware2 = _interopRequireDefault(_swaggerExpressMiddleware);
 
-var _path = __webpack_require__(1);
+var _path = __webpack_require__(0);
 
 var path = _interopRequireWildcard(_path);
 
@@ -321,10 +297,34 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /* WEBPACK VAR INJECTION */}.call(exports, "server/common/swagger"))
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, exports) {
 
 module.exports = require("swagger-express-middleware");
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _pino = __webpack_require__(14);
+
+var _pino2 = _interopRequireDefault(_pino);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const l = (0, _pino2.default)({
+  name: process.env.APP_ID,
+  level: process.env.LOG_LEVEL
+});
+
+exports.default = l;
 
 /***/ }),
 /* 14 */
@@ -344,11 +344,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = routes;
 
-var _generate = __webpack_require__(20);
+var _generate = __webpack_require__(16);
 
 var _generate2 = _interopRequireDefault(_generate);
 
-var _kill = __webpack_require__(21);
+var _kill = __webpack_require__(17);
 
 var _kill2 = _interopRequireDefault(_kill);
 
@@ -361,11 +361,7 @@ function routes(app) {
 }
 
 /***/ }),
-/* 16 */,
-/* 17 */,
-/* 18 */,
-/* 19 */,
-/* 20 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -393,7 +389,7 @@ exports.default = (req, res, next) => {
 };
 
 /***/ }),
-/* 21 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

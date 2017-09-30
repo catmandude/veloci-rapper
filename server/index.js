@@ -1,6 +1,6 @@
 import Express from 'express';
-import './common/env';
 import * as bodyParser from 'body-parser';
+import './common/env';
 import generate from './generate';
 
 const app = new Express();
