@@ -24,8 +24,25 @@ export default (req, res, next) => {
     })
     .concat({
       purpose: 'Create VPC (Virtual Private Cloud)',
-      call: '',
+      call: `
+      import {ec2} from 'EC2';
+      let vpc = undefined;
+      ec2.createDefaultVpc({DryRun:true},(error,data)=>{
+          if(error==='DryRunOperation')
+            ec2.createDefaultVpc({DryRun:false},(error,data)=>{
+                vpc = data.vpc;
+                //use ec2.createDhcpOptions,createInternetGateway, etc
+                //consider using creatVpc instead of default
+            })
+          else
+            throw new Error('no permissions');
+      })
+      `,
       arguments: '',
+      notes: `
+      http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/EC2.html#createDefaultVpc-property
+      this step may be optional, simply updating data inside existing VPC may be suffecient.
+      `,
     })
     .concat({
       purpose: 'Get code from S3 source',
