@@ -6,6 +6,29 @@ export default (req, res, next) => {
   const output = [].concat({
     purpose: 'Create regional lambdas',
     call: '',
+    call: `
+    import AWS from 'aws-sdk';
+    var params = {
+      Code: {
+        use S3 info from below
+      },
+      Description: 'Create a reagional lambda',
+      FunctionName: createRegionalLambda,
+      MemorySize: 128,
+      Publish: true,
+      Role: "arn:aws:iam::123456789012:role/service-role/*our role name*",
+      Runtime: "nodejs4.3",
+      Timeout: 15,
+      VpcConfig: {
+      }
+     };
+     ${
+  Object.keys(body).map(region => `lambda.createFunction({...params, region:${region}, function(err, data) {
+          if (err) console.log(err, err.stack);
+          else     console.log(data);
+         })`).join('\n\n')
+}
+    `,
     arguments: '',
   })
     .concat({
