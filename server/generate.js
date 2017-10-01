@@ -21,11 +21,15 @@ export default (req, res, next) => {
       purpose: 'Create API gateway',
       call: '',
       arguments: '',
+      notes: `
+      http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/APIGateway.html
+      `,
     })
     .concat({
       purpose: 'Create VPC (Virtual Private Cloud)',
       call: `
-      import {ec2} from 'EC2';
+      import AWS from 'aws-sdk';
+      const ec2 = new AWS.EC2();
       let vpc = undefined;
       ec2.createDefaultVpc({DryRun:true},(error,data)=>{
           if(error==='DryRunOperation')
@@ -47,7 +51,8 @@ export default (req, res, next) => {
     .concat({
       purpose: 'Get code from S3 source',
       call: `
-      import {s3} from 'S3';
+      import AWS from 'aws-sdk';
+      const s3 = new AWS.S3();
       const html = s3.getObject({Bucket: *bucketName*/client, Key: index.html}).createReadStream();
       const clientJs = s3.getObject({Bucket: *bucketName*/client, Key: bundle.js}).createReadStream();
       const regionalL = s3.getObject({Bucket: *bucketName*/regional, Key: bundle.js}).createReadStream();
