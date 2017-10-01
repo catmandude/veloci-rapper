@@ -159,23 +159,91 @@ exports.default = (req, res, next) => {
   const body = JSON.parse(Object.keys(req.body)[0]);
   const output = [].concat({
     purpose: 'Create regional lambdas',
-    call: '',
+    call: `
+    import AWS from 'aws-sdk';
+    var params = {
+      Code: {
+        use S3 info from below
+      },
+      Description: 'Create a reagional lambda',
+      FunctionName: createRegionalLambda,
+      MemorySize: 128,
+      Publish: true,
+      Role: "arn:aws:iam::123456789012:role/service-role/*our role name*",
+      Runtime: "nodejs4.3",
+      Timeout: 15,
+      VpcConfig: {
+      }
+     };
+     ${Object.keys(body).map(region => `lambda.createFunction({...params, region:${region}, function(err, data) {
+          if (err) console.log(err, err.stack);
+          else     console.log(data);
+         })`).join('\n\n')}
+    `,
     arguments: ''
   }).concat({
     purpose: 'Create personal lambdas',
-    call: '',
+    call: `
+      import AWS from 'aws-sdk';
+      var params = {
+        Code: {
+          use S3 info from below
+        },
+        Description: 'Create a personal lambda',
+        FunctionName: createPersonalLambda,
+        MemorySize: 128,
+        Publish: true,
+        Role: "arn:aws:iam::123456789012:role/service-role/*our role name*",
+        Runtime: "nodejs4.3",
+        Timeout: 15,
+        VpcConfig: {
+        }
+       };
+       ${Object.keys(body).map(region => `lambda.createFunction({...params, region:${region}, function(err, data) {
+            if (err) console.log(err, err.stack);
+            else     console.log(data);
+           })`).join('\n\n')}
+      `,
     arguments: ''
   }).concat({
     purpose: 'Create person dbs',
-    call: '',
+    call: `
+      var cloudformation = new AWS.CloudFormation();
+      var params = {
+          ChangeSetName: 'STRING_VALUE', /* required */
+          ClientRequestToken: 'STRING_VALUE',
+          StackName: 'STRING_VALUE'
+      };
+      cloudformation.executeChangeSet(params, function(err, data) {
+          if (err) console.log(err, err.stack); // an error occurred
+          else     console.log(data);           // successful response
+      });
+`,
     arguments: '',
     notes: 'http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudFormation.html'
   }).concat({
     purpose: 'Create API gateway',
     call: `
       var apigateway = new AWS.APIGateway();
-
-`,
+      var params = {
+        customerId: 'STRING_VALUE',
+        description: 'STRING_VALUE',
+        enabled: true || false,
+        generateDistinctId: true || false,
+        name: 'STRING_VALUE',
+        stageKeys: [
+          {
+            restApiId: 'STRING_VALUE',
+            stageName: 'STRING_VALUE'
+          },
+          /* more items */
+        ],
+        value: 'STRING_VALUE'
+      };
+      apigateway.createApiKey(params, function(err, data) {
+        if (err) console.log(err, err.stack); // an error occurred
+        else     console.log(data);           // successful response
+      });`,
     arguments: '',
     notes: `
       http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/APIGateway.html
@@ -215,26 +283,12 @@ exports.default = (req, res, next) => {
     arguments: '',
     notes: 'use the file streams provided to pipe or read out code for the lamda\'s and client'
   });
-  _fs2.default.unlinkSync('mammal.json');
+  // fs.unlinkSync('mammal.json');
   _fs2.default.writeFile('mammal.json', JSON.stringify(output, null, 2), err => {
     if (err) throw err;
     console.log('The file has been saved!');
-    res.sendStatus(200);
   });
-  // create a lambda
-  // create a db
-  // configure lambda // configure DB
-  // create s3 bucket and write to it / read from it
-  // read from github
-  // tie all AWS
-  // Build SAM thing
-
-  // Get mammal code
-  // push SAM to Cloud Formation
-  // Call SDK for DB
-  // Push Mammal to S3
-  // Respond to Trike that all went well or not
-  // DO WE NEED ANYTHING ELSE
+  res.sendStatus(200);
 };
 
 /***/ }),

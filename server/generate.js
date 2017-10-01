@@ -22,11 +22,11 @@ export default (req, res, next) => {
       }
      };
      ${
-      Object.keys(body).map(region => `lambda.createFunction({...params, region:${region}, function(err, data) {
+  Object.keys(body).map(region => `lambda.createFunction({...params, region:${region}, function(err, data) {
           if (err) console.log(err, err.stack);
           else     console.log(data);
          })`).join('\n\n')
-      }
+}
     `,
     arguments: '',
   })
@@ -49,11 +49,11 @@ export default (req, res, next) => {
         }
        };
        ${
-        Object.keys(body).map(region => `lambda.createFunction({...params, region:${region}, function(err, data) {
+  Object.keys(body).map(region => `lambda.createFunction({...params, region:${region}, function(err, data) {
             if (err) console.log(err, err.stack);
             else     console.log(data);
            })`).join('\n\n')
-        }
+}
       `,
       arguments: '',
     })
@@ -144,18 +144,4 @@ export default (req, res, next) => {
     console.log('The file has been saved!');
     res.sendStatus(200);
   });
-  // create a lambda
-  // create a db
-  // configure lambda // configure DB
-  // create s3 bucket and write to it / read from it
-  // read from github
-  // tie all AWS
-  // Build SAM thing
-
-  // Get mammal code
-  // push SAM to Cloud Formation
-  // Call SDK for DB
-  // Push Mammal to S3
-  // Respond to Trike that all went well or not
-  // DO WE NEED ANYTHING ELSE
 };
