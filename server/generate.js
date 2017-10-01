@@ -15,7 +15,9 @@ export default (req, res, next) => {
     })
     .concat({
       purpose: 'Create person dbs',
-      call: '',
+      call: `
+      var cloudformation = new AWS.CloudFormation();
+`,
       arguments: '',
       notes: 'http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudFormation.html',
     })
