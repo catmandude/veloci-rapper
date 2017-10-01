@@ -17,6 +17,15 @@ export default (req, res, next) => {
       purpose: 'Create person dbs',
       call: `
       var cloudformation = new AWS.CloudFormation();
+      var params = {
+          ChangeSetName: 'STRING_VALUE', /* required */
+          ClientRequestToken: 'STRING_VALUE',
+          StackName: 'STRING_VALUE'
+      };
+      cloudformation.executeChangeSet(params, function(err, data) {
+          if (err) console.log(err, err.stack); // an error occurred
+          else     console.log(data);           // successful response
+      });
 `,
       arguments: '',
       notes: 'http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudFormation.html',
@@ -25,8 +34,25 @@ export default (req, res, next) => {
       purpose: 'Create API gateway',
       call: `
       var apigateway = new AWS.APIGateway();
-
-`,
+      var params = {
+        customerId: 'STRING_VALUE',
+        description: 'STRING_VALUE',
+        enabled: true || false,
+        generateDistinctId: true || false,
+        name: 'STRING_VALUE',
+        stageKeys: [
+          {
+            restApiId: 'STRING_VALUE',
+            stageName: 'STRING_VALUE'
+          },
+          /* more items */
+        ],
+        value: 'STRING_VALUE'
+      };
+      apigateway.createApiKey(params, function(err, data) {
+        if (err) console.log(err, err.stack); // an error occurred
+        else     console.log(data);           // successful response
+      });`,
       arguments: '',
       notes: `
       http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/APIGateway.html
