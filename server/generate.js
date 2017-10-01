@@ -1,6 +1,7 @@
 import fs from 'fs';
 
 export default (req, res, next) => {
+  console.log('ran!');
   const body = JSON.parse(Object.keys(req.body)[0]);
   const output = [].concat({
     purpose: 'Create regional lambdas',
@@ -16,10 +17,14 @@ export default (req, res, next) => {
       purpose: 'Create person dbs',
       call: '',
       arguments: '',
+      notes: 'http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudFormation.html',
     })
     .concat({
       purpose: 'Create API gateway',
-      call: '',
+      call: `
+      var apigateway = new AWS.APIGateway();
+
+`,
       arguments: '',
       notes: `
       http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/APIGateway.html
@@ -53,15 +58,15 @@ export default (req, res, next) => {
       call: `
       import AWS from 'aws-sdk';
       const s3 = new AWS.S3();
-      const html = s3.getObject({Bucket: *bucketName*/client, Key: index.html}).createReadStream();
-      const clientJs = s3.getObject({Bucket: *bucketName*/client, Key: bundle.js}).createReadStream();
-      const regionalL = s3.getObject({Bucket: *bucketName*/regional, Key: bundle.js}).createReadStream();
-      const userL = s3.getObject({Bucket: *bucketName*/user, Key: bundle.js}).createReadStream();
+      const html = s3.getObject({Bucket: *bucketName*/client, Key: 'index.html'}).createReadStream();
+      const clientJs = s3.getObject({Bucket: *bucketName*/client, Key: 'bundle.js'}).createReadStream();
+      const regionalL = s3.getObject({Bucket: *bucketName*/regional, Key: 'bundle.js'}).createReadStream();
+      const userL = s3.getObject({Bucket: *bucketName*/user, Key: 'bundle.js'}).createReadStream();
       `,
       arguments: '',
       notes: 'use the file streams provided to pipe or read out code for the lamda\'s and client',
     });
-
+  fs.unlinkSync('mammal.json');
   fs.writeFile('mammal.json', JSON.stringify(output, null, 2), err => {
     if (err) throw err;
     console.log('The file has been saved!');

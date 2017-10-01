@@ -62,55 +62,68 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = require("path");
+module.exports = __webpack_require__(1);
+
 
 /***/ }),
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(2);
-
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var _express = __webpack_require__(2);
 
-__webpack_require__(3);
+var _express2 = _interopRequireDefault(_express);
 
-var _server = __webpack_require__(5);
+var _bodyParser = __webpack_require__(3);
 
-var _server2 = _interopRequireDefault(_server);
+var bodyParser = _interopRequireWildcard(_bodyParser);
 
-var _routes = __webpack_require__(15);
+__webpack_require__(4);
 
-var _routes2 = _interopRequireDefault(_routes);
+var _generate = __webpack_require__(6);
+
+var _generate2 = _interopRequireDefault(_generate);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = new _server2.default().router(_routes2.default).listen(process.env.PORT);
+const app = new _express2.default();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use('/api/v1/generate', _generate2.default);
+
+app.listen(process.env.PORT);
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+module.exports = require("express");
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports) {
+
+module.exports = require("body-parser");
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _dotenv = __webpack_require__(4);
+var _dotenv = __webpack_require__(5);
 
 var _dotenv2 = _interopRequireDefault(_dotenv);
 
@@ -119,259 +132,95 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _dotenv2.default.config();
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports) {
 
 module.exports = require("dotenv");
 
 /***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(__dirname) {
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _express = __webpack_require__(6);
-
-var _express2 = _interopRequireDefault(_express);
-
-var _path = __webpack_require__(0);
-
-var path = _interopRequireWildcard(_path);
-
-var _bodyParser = __webpack_require__(7);
-
-var bodyParser = _interopRequireWildcard(_bodyParser);
-
-var _http = __webpack_require__(8);
-
-var http = _interopRequireWildcard(_http);
-
-var _os = __webpack_require__(9);
-
-var os = _interopRequireWildcard(_os);
-
-var _cookieParser = __webpack_require__(10);
-
-var _cookieParser2 = _interopRequireDefault(_cookieParser);
-
-var _swagger = __webpack_require__(11);
-
-var _swagger2 = _interopRequireDefault(_swagger);
-
-var _logger = __webpack_require__(13);
-
-var _logger2 = _interopRequireDefault(_logger);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-const app = new _express2.default();
-
-class ExpressServer {
-  constructor() {
-    const root = path.normalize(`${__dirname}/../..`);
-    app.set('appPath', `${root}client`);
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({ extended: true }));
-    app.use((0, _cookieParser2.default)(process.env.SESSION_SECRET));
-    app.use(_express2.default.static(`${root}/public`));
-  }
-
-  router(routes) {
-    (0, _swagger2.default)(app, routes);
-    return this;
-  }
-
-  listen(port = process.env.PORT) {
-    const welcome = p => () => _logger2.default.info(`up and running in ${"development" || 'development'} @: ${os.hostname()} on port: ${p}}`);
-    http.createServer(app).listen(port, welcome(port));
-    return app;
-  }
-}
-exports.default = ExpressServer;
-/* WEBPACK VAR INJECTION */}.call(exports, "server/common"))
-
-/***/ }),
 /* 6 */
-/***/ (function(module, exports) {
-
-module.exports = require("express");
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports) {
-
-module.exports = require("body-parser");
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports) {
-
-module.exports = require("http");
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports) {
-
-module.exports = require("os");
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports) {
-
-module.exports = require("cookie-parser");
-
-/***/ }),
-/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(__dirname) {
+
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-exports.default = function (app, routes) {
-  (0, _swaggerExpressMiddleware2.default)(path.join(__dirname, 'Api.yaml'), app, (err, mw) => {
-    // Enable Express' case-sensitive and strict options
-    // (so "/entities", "/Entities", and "/Entities/" are all different)
-    app.enable('case sensitive routing');
-    app.enable('strict routing');
+var _fs = __webpack_require__(7);
 
-    app.use(mw.metadata());
-    app.use(mw.files({
-      // Override the Express App's case-sensitive 
-      // and strict-routing settings for the Files middleware.
-      caseSensitive: false,
-      strict: false
-    }, {
-      useBasePath: true,
-      apiPath: process.env.SWAGGER_API_SPEC
-      // Disable serving the "Api.yaml" file
-      // rawFilesPath: false
-    }));
-
-    app.use(mw.parseRequest({
-      // Configure the cookie parser to use secure cookies
-      cookie: {
-        secret: process.env.SESSION_SECRET
-      },
-      // Don't allow JSON content over 100kb (default is 1mb)
-      json: {
-        limit: process.env.REQUEST_LIMIT
-      }
-    }));
-
-    // These two middleware don't have any options (yet)
-    app.use(mw.CORS(), mw.validateRequest());
-
-    // Error handler to display the validation error as HTML
-    app.use((err, req, res, next) => {
-      // eslint-disable-line no-unused-vars, no-shadow
-      res.status(err.status || 500);
-      res.send(`<h1>${err.status || 500} Error</h1>` + `<pre>${err.message}</pre>`);
-    });
-
-    routes(app);
-  });
-};
-
-var _swaggerExpressMiddleware = __webpack_require__(12);
-
-var _swaggerExpressMiddleware2 = _interopRequireDefault(_swaggerExpressMiddleware);
-
-var _path = __webpack_require__(0);
-
-var path = _interopRequireWildcard(_path);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+var _fs2 = _interopRequireDefault(_fs);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-/* WEBPACK VAR INJECTION */}.call(exports, "server/common/swagger"))
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports) {
-
-module.exports = require("swagger-express-middleware");
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _pino = __webpack_require__(14);
-
-var _pino2 = _interopRequireDefault(_pino);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-const l = (0, _pino2.default)({
-  name: process.env.APP_ID,
-  level: process.env.LOG_LEVEL
-});
-
-exports.default = l;
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports) {
-
-module.exports = require("pino");
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = routes;
-
-var _generate = __webpack_require__(16);
-
-var _generate2 = _interopRequireDefault(_generate);
-
-var _kill = __webpack_require__(17);
-
-var _kill2 = _interopRequireDefault(_kill);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function routes(app) {
-  app.use('/api/v1/generate-mammal', _generate2.default);
-  app.use('/api/v1/kill', _kill2.default);
-  // app.use('/api/v1/', (req, res, next) => {});
-}
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
 
 exports.default = (req, res, next) => {
+  console.log('ran!');
+  const body = JSON.parse(Object.keys(req.body)[0]);
+  const output = [].concat({
+    purpose: 'Create regional lambdas',
+    call: '',
+    arguments: ''
+  }).concat({
+    purpose: 'Create personal lambdas',
+    call: '',
+    arguments: ''
+  }).concat({
+    purpose: 'Create person dbs',
+    call: '',
+    arguments: '',
+    notes: 'http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudFormation.html'
+  }).concat({
+    purpose: 'Create API gateway',
+    call: `
+      var apigateway = new AWS.APIGateway();
+
+`,
+    arguments: '',
+    notes: `
+      http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/APIGateway.html
+      `
+  }).concat({
+    purpose: 'Create VPC (Virtual Private Cloud)',
+    call: `
+      import AWS from 'aws-sdk';
+      const ec2 = new AWS.EC2();
+      let vpc = undefined;
+      ec2.createDefaultVpc({DryRun:true},(error,data)=>{
+          if(error==='DryRunOperation')
+            ec2.createDefaultVpc({DryRun:false},(error,data)=>{
+                vpc = data.vpc;
+                //use ec2.createDhcpOptions,createInternetGateway, etc
+                //consider using creatVpc instead of default
+            })
+          else
+            throw new Error('no permissions');
+      })
+      `,
+    arguments: '',
+    notes: `
+      http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/EC2.html#createDefaultVpc-property
+      this step may be optional, simply updating data inside existing VPC may be suffecient.
+      `
+  }).concat({
+    purpose: 'Get code from S3 source',
+    call: `
+      import AWS from 'aws-sdk';
+      const s3 = new AWS.S3();
+      const html = s3.getObject({Bucket: *bucketName*/client, Key: 'index.html'}).createReadStream();
+      const clientJs = s3.getObject({Bucket: *bucketName*/client, Key: 'bundle.js'}).createReadStream();
+      const regionalL = s3.getObject({Bucket: *bucketName*/regional, Key: 'bundle.js'}).createReadStream();
+      const userL = s3.getObject({Bucket: *bucketName*/user, Key: 'bundle.js'}).createReadStream();
+      `,
+    arguments: '',
+    notes: 'use the file streams provided to pipe or read out code for the lamda\'s and client'
+  });
+  _fs2.default.unlinkSync('mammal.json');
+  _fs2.default.writeFile('mammal.json', JSON.stringify(output, null, 2), err => {
+    if (err) throw err;
+    console.log('The file has been saved!');
+    res.sendStatus(200);
+  });
   // create a lambda
   // create a db
   // configure lambda // configure DB
@@ -384,24 +233,15 @@ exports.default = (req, res, next) => {
   // push SAM to Cloud Formation
   // Call SDK for DB
   // Push Mammal to S3
-  // Respond to Trike that all went well or not 
+  // Respond to Trike that all went well or not
   // DO WE NEED ANYTHING ELSE
 };
 
 /***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 7 */
+/***/ (function(module, exports) {
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-exports.default = (req, res, next) => {
-  console.log(next);
-};
+module.exports = require("fs");
 
 /***/ })
 /******/ ]);
