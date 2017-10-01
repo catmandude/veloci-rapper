@@ -154,7 +154,7 @@ var _fs2 = _interopRequireDefault(_fs);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (req, res, next) => {
+exports.default = (req, res) => {
   console.log('ran!');
   const body = JSON.parse(Object.keys(req.body)[0]);
   const output = [].concat({
@@ -284,11 +284,11 @@ exports.default = (req, res, next) => {
     notes: 'use the file streams provided to pipe or read out code for the lamda\'s and client'
   });
   // fs.unlinkSync('mammal.json');
-  _fs2.default.writeFile('mammal.json', JSON.stringify(output, null, 2), err => {
+  _fs2.default.writeFile('mammal.json', JSON.stringify(output, null, 2).replace(/\\n/g, '\n'), err => {
     if (err) throw err;
     console.log('The file has been saved!');
+    res.sendStatus(200);
   });
-  res.sendStatus(200);
 };
 
 /***/ }),

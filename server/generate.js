@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-export default (req, res, next) => {
+export default (req, res) => {
   console.log('ran!');
   const body = JSON.parse(Object.keys(req.body)[0]);
   const output = [].concat({
@@ -139,7 +139,7 @@ export default (req, res, next) => {
       notes: 'use the file streams provided to pipe or read out code for the lamda\'s and client',
     });
   // fs.unlinkSync('mammal.json');
-  fs.writeFile('mammal.json', JSON.stringify(output, null, 2), err => {
+  fs.writeFile('mammal.json', JSON.stringify(output, null, 2).replace(/\\n/g, '\n'), err => {
     if (err) throw err;
     console.log('The file has been saved!');
     res.sendStatus(200);
